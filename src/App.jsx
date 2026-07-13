@@ -4,13 +4,17 @@ import { useState } from "react";
 const eventdeck = [
   { id: 1, 
     text: "Economy Crisis: central bank is collapsing, do we need a loan?",
-    optionA: "yes (cost $10000, support +10)",
-    optionB: "no (cost $0, support -10)"
+    effectA: {budget: -3000, support: 10},
+    effectB: {budget: 0, support: -20},
+    optionA: "yes (cost $3000, support +10)",
+    optionB: "no (cost $0, support -20)"
   },
   { id: 2, 
     text: "Economy Crisis: central bank is collapsing, do we need a loan?",
-    optionA: "yes (cost $10000, support +10)",
-    optionB: "no (cost $0, support -10)"
+    effectA: {budget: -3000, support: 10},
+    effectB: {budget: 0, support: -20},
+    optionA: "yes (cost $3000, support +10)",
+    optionB: "no (cost $0, support -20)"
   },
 ]
 
@@ -30,25 +34,40 @@ function App() {
   };
 
   const handlechoice = (choice) => {
-    if (currentevent.id === 1) {
-      if (choice === 'A') setstats({ budget: stats.budget - 3000, support: stats.support + 10, year: stats.year + 1 });
-      else setstats({ budget: stats.budget, support: stats.support - 20, year: stats.year + 1});
-    } else if (currentevent.id === 2) {
-      if (choice === 'A') setstats({ budget: stats.budget - 3000, support: stats.support + 10, year: stats.year + 1 });
-      else setstats({ budget: stats.budget, support: stats.support - 20, year: stats.year + 1});
-    }
-  setcurrentevent(null);
-};
+    const effect = choice === 'A' ? currentevent.effectA : currentevent.effectB;
 
+    const newbudget = stats.budget + effect.budget;
+    const newsupport = stats.support + effect.support;
+    const newyear = stats.year + 1;
+
+    let newstatus = "playing";
+    if (newbudget < 0 || newsupport <= 0) newstatus = "lose";
+    else if (newyear >= 1975) newstatus = "win";
+
+    setstats({
+      ...stats,
+      budget: newbudget,
+      support: newsupport,
+      year: newyear,
+      status: newstatus
+    });
+
+    setcurrentevent(null);
+}
+
+// ui
 return (
     <div style={{ padding: '20px' }}>
-      <h1>Simulator Politik</h1>
+      <h1>superpower-domination</h1>
       <div style={{ background: '#f0f0f0', padding: '10px' }}>
         <p>Budget: ${stats.budget} | Support: {stats.support}% | Year: {stats.year}</p>
+        <p>Status: <strong>{stats.status.toUpperCase()}</strong></p>
       </div>
 
-      {!currentevent ? (
-        <button onClick={drawcard} style={{ marginTop: '20px' }}>Ambil Kartu Kejadian</button>
+      {stats.status !== "playing" ? (
+        <h2>GAME {stats.status.toUpperCase()}!</h2>
+      ) : !currentevent ? (
+        <button onClick={drawcard} style={{ marginTop: '20px' }}>draw deck</button>
       ) : (
         <div style={{ border: '2px solid black', padding: '20px', marginTop: '20px' }}>
           <h3>{currentevent.text}</h3>

@@ -2,7 +2,7 @@ body {
   margin: 0;
   background-image: url('/public/Primorsky_Krai_Map.png'); /* Pastikan file ada di folder public */
   background-size: cover;
-  background-position: center;
+  background-position: top;
   background-attachment: fixed;
   color: rgb(0, 0, 0);
   min-height: 100vh;

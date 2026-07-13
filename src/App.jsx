@@ -62,7 +62,7 @@ function App() {
 return (
     <div style={{ background: '#f0f0f0', padding: '20px' }}>
       <h1>Eastern Gambit</h1>
-      <div style={{ background: '#dbdbdb', padding: '10px' }}>
+      <div style={{ background: '#f0f0f0', padding: '10px' }}>
         <p>Budget: ${stats.budget} | Stability: {stats.stability}% | Year: {stats.year}</p>
         <p>Status: <strong>{stats.status.toUpperCase()}</strong></p>
       </div>
@@ -70,9 +70,9 @@ return (
       {stats.status !== "playing" ? (
         <h2>GAME {stats.status.toUpperCase()}!</h2>
       ) : !currentevent ? (
-        <button onClick={drawcard} style={{ marginTop: '20px' }}>draw deck</button>
+        <button onClick={drawcard} style={{ marginTop: '20px' }}>draw a card</button>
       ) : (
-        <div style={{ border: '2px solid black', padding: '20px', marginTop: '20px' }}>
+        <div style={{ border: '5px solid black', padding: '20px', marginTop: '20px' }}>
           <h3>{currentevent.text}</h3>
           <button onClick={() => handlechoice('A')}>{currentevent.optionA}</button>
           <button onClick={() => handlechoice('B')}>{currentevent.optionB}</button>

@@ -1,122 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
 
+// card event
+const eventdeck = [
+  { id: 1, 
+    text: "Economy Crisis: central bank is collapsing, do we need a loan?",
+    optionA: "yes (cost $10000, support +10)",
+    optionB: "no (cost $0, support -10)"
+  },
+  { id: 2, 
+    text: "Economy Crisis: central bank is collapsing, do we need a loan?",
+    optionA: "yes (cost $10000, support +10)",
+    optionB: "no (cost $0, support -10)"
+  },
+]
+
+// app yes
 function App() {
-  const [count, setCount] = useState(0)
+  const [stats, setstats] = useState({ 
+    budget: 100, 
+    support: 50,
+    year: 1965,
+    status: "playing"
+  });
+  const [currentevent, setcurrentevent] = useState(null);
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+  const drawcard = () => {
+    const randomcard = eventdeck[Math.floor(Math.random() * eventdeck.length)];
+    setcurrentevent(randomcard);
+  };
 
-      <div className="ticks"></div>
+  const handlechoice = (choice) => {
+    if (currentevent.id === 1) {
+      if (choice === 'A') setstats({ budget: stats.budget - 3000, support: stats.support + 10, year: stats.year + 1 });
+      else setstats({ budget: stats.budget, support: stats.support - 20, year: stats.year + 1});
+    } else if (currentevent.id === 2) {
+      if (choice === 'A') setstats({ budget: stats.budget - 3000, support: stats.support + 10, year: stats.year + 1 });
+      else setstats({ budget: stats.budget, support: stats.support - 20, year: stats.year + 1});
+    }
+  setcurrentevent(null);
+};
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+return (
+    <div style={{ padding: '20px' }}>
+      <h1>Simulator Politik</h1>
+      <div style={{ background: '#f0f0f0', padding: '10px' }}>
+        <p>Budget: ${stats.budget} | Support: {stats.support}% | Year: {stats.year}</p>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {!currentevent ? (
+        <button onClick={drawcard} style={{ marginTop: '20px' }}>Ambil Kartu Kejadian</button>
+      ) : (
+        <div style={{ border: '2px solid black', padding: '20px', marginTop: '20px' }}>
+          <h3>{currentevent.text}</h3>
+          <button onClick={() => handlechoice('A')}>{currentevent.optionA}</button>
+          <button onClick={() => handlechoice('B')}>{currentevent.optionB}</button>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -60,9 +60,9 @@ function App() {
 
 // ui
 return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ background: '#f0f0f0', padding: '20px' }}>
       <h1>Eastern Gambit</h1>
-      <div style={{ background: '#f0f0f0', padding: '10px' }}>
+      <div style={{ background: '#dbdbdb', padding: '10px' }}>
         <p>Budget: ${stats.budget} | Stability: {stats.stability}% | Year: {stats.year}</p>
         <p>Status: <strong>{stats.status.toUpperCase()}</strong></p>
       </div>

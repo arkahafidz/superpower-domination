@@ -1,4 +1,4 @@
-# superpower-domination
+# Eastern Gambit
 a narrative card political game
 
 techstack:
